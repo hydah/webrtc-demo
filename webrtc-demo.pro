@@ -23,6 +23,7 @@ clang {
 
 WEBRTC_SRC = /Users/heyu/code/webrtc/src
 message($$WEBRTC_SRC)
+LIBWEBSOCET = /Users/heyu/code/libwebsockets
 
 #RESOURCES += \
 #    src/ui/qml.qrc
@@ -63,7 +64,6 @@ SOURCES += \
         src/RTCLivePusher/SDLRenderer.cpp \
         src/RTCLivePusher/VideoObserver.cpp \
         src/RTCLivePusher/VideoRenderer.cpp \
-        src/RTCLivePusher/packet_buffer_unittest.cc \
         src/RTCLivePusher/peerconnectionStream.cpp \
         src/RTCLivePusher/websocketConnect.cpp \
         src/ui/main.cpp \
@@ -79,6 +79,7 @@ QML_DESIGNER_IMPORT_PATH =
 
 
 INCLUDEPATH += \
+    $$LIBWEBSOCET/build/include \
     include \
     src \
     3rdparty \
@@ -92,6 +93,7 @@ INCLUDEPATH += \
     3rdparty/WebRTC/include/third_party/libyuv/include
 
 LIBS += -L$$WEBRTC_SRC/out/mac/obj -lwebrtc
+LIBS += -L$$LIBWEBSOCET/build/lib/ -lwebsockets
 DEFINES += WEBRTC_MAC WEBRTC_POSIX WEBRTC_UNIX
 
 qnx: target.path = /tmp/$${TARGET}/bin
