@@ -17,7 +17,8 @@ IRenderer* RendererFactory::create(RENDERER_TYPE type)
 	{
 	case RENDERER_OPENGL:
 #if defined(__APPLE__)
-        return xrtc::CreateMacRenderGL();
+//        return CreateMacRenderGL();
+        return nullptr;
 #endif
 		return nullptr;
 	case RENDERER_SDL:

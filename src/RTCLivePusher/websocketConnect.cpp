@@ -16,8 +16,8 @@ struct session_data {
 
 
 int wssCallback(struct lws *wsi, enum lws_callback_reasons reason, void *user, void *in, size_t len) {
-	//printf("%s %s %d wsi: %p, reason: %d, user: %p, in: %p, len: %d\n",
-			//__FILE__, __func__, __LINE__, wsi, reason, user, in, len);
+    printf("%s %s %d wsi: %p, reason: %d, user: %p, in: %p, len: %d\n",
+            __FILE__, __func__, __LINE__, wsi, reason, user, in, len);
 	websocketConnect *wsConnection = nullptr;
 	if (user != nullptr) {
 		wsConnection = static_cast<websocketConnect*>(user);
@@ -140,11 +140,11 @@ bool websocketConnect::connect(std::string serverIp, short serverPort)
 	conn_info.context = m_context;
 	conn_info.address = serverIp.c_str();
 	conn_info.port = serverPort;
-	conn_info.path = "/?sdkAppid=1400188366&identifier=user_12345&userSig=eJxNjl1PgzAUhv8LtzPulFKGJl4QggJRE2TiJEsaNgoeFzpCC9lc-O9WskVvnyfvx8laPmbX5Xa7H6Tm*tgJ69YC62rCWAmpsUbRGzgo0XNiU4edbdl1WPFSc9pX-0Kq2vFJGUYcAOJ51HXPUhw67AUvaz11EsaYDXCJjqJXuJdG2ECY2QL4kxrb32-EBW8BjIFz2cPG4KfwNYiDWbrx8-U8yTf3ydcsslcP*IEqeH-zGlI-HxJFx1GGRauihY*hb6*aLNdxlGrGaDH4jH7eENm0y7SQu0yUSmTH9Vx5LxXGd9b3D-vwWUQ_";
+    conn_info.path = "/?sdkAppid=1400188366&identifier=user_65290312&userSig=eJw1jUELgjAYhv*K7Bz2bXNrBh0qupQQlYc6RbRpS7OxqQnRfy9Nr*-D87xvFEcH3*kUTT00IerOVtn2VN3iTb7Yx0c7TpuI0MIEkF*X*Jm4ZC3m9e41QyOvU1VjtFU-GzPGCAD0u5PZxRgtWxIAYCEo5z2rlW3viA9DpdSPrsExFSFldKhoqYpSJ-ovVE7ZM2ckBIoJ*nwB98s0cQ__";
 	conn_info.host = addr_port;
 	conn_info.protocol = protocols[0].name;
-	//conn_info.method = "GET";
-	conn_info.origin = "trtc-1252463788.cos.ap-guangzhou.myqcloud.com";
+//    conn_info.method = "GET";
+    conn_info.origin = "https://trtc-1252463788.file.myqcloud.com";
 	conn_info.ssl_connection =  LCCSCF_USE_SSL | LCCSCF_SKIP_SERVER_CERT_HOSTNAME_CHECK | LCCSCF_ALLOW_INSECURE;
 	conn_info.userdata = this;
 	

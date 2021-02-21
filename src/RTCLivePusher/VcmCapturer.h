@@ -7,6 +7,9 @@
 
 #include "api/scoped_refptr.h"
 #include "modules/video_capture/video_capture.h"
+#include "test/test_video_capturer.h"
+#include "test/platform_video_capturer.h"
+
 
 #include "modules/video_capture/video_capture_factory.h"
 #include "rtc_base/checks.h"
@@ -28,7 +31,7 @@
 namespace webrtc 
 {
 // reference from webrtc::TestVideoCapturer
-class CustomVideoCapturer : public rtc::VideoSourceInterface<VideoFrame> 
+class CustomVideoCapturer : public rtc::VideoSourceInterface<VideoFrame>
 {
  public:
   CustomVideoCapturer() = default;
@@ -118,7 +121,7 @@ class CustomVideoCapturer : public rtc::VideoSourceInterface<VideoFrame>
 
 
 class VcmCapturer : public CustomVideoCapturer,
-                    public rtc::VideoSinkInterface<VideoFrame> 
+                    public rtc::VideoSinkInterface<VideoFrame>
 {
  public:
   static VcmCapturer* Create(size_t width,

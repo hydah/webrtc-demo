@@ -24,7 +24,7 @@ clang {
 WEBRTC_SRC = /Users/heyu/code/webrtc/src
 message($$WEBRTC_SRC)
 LIBWEBSOCET = /Users/heyu/code/libwebsockets
-
+SDLDIR = /usr/local/Cellar/sdl2/2.0.14_1/lib
 #RESOURCES += \
 #    src/ui/qml.qrc
 
@@ -35,6 +35,9 @@ FORMS += \
 HEADERS += \
     include/IDeviceManager.h \
     include/IRTCLivePusher.h \
+    src/test/mac_capturer.h \
+    src/test/platform_video_capturer.h \
+    src/test/test_video_capturer.h \
     src/ui/DemoPusher.h \
     src/ui/devicesetting.h \
     src/RTCLivePusher/CapturerTrackSource.h \
@@ -66,9 +69,13 @@ SOURCES += \
         src/RTCLivePusher/VideoRenderer.cpp \
         src/RTCLivePusher/peerconnectionStream.cpp \
         src/RTCLivePusher/websocketConnect.cpp \
+        src/test/mac_capturer.mm \
+        src/test/platform_video_capturer.cc \
+        src/test/test_video_capturer.cc \
         src/ui/main.cpp \
         src/ui/devicesetting.cpp \
-        src/ui/DemoPusher.cpp
+        src/ui/DemoPusher.cpp\
+        3rdparty/util/MacUtil.mm
 
 
 # Additional import path used to resolve QML modules in Qt Creator's code model
@@ -90,11 +97,40 @@ INCLUDEPATH += \
     3rdparty/TaskQueue \
     3rdparty/WebRTC/include/third_party \
     3rdparty/WebRTC/include/third_party/abseil-cpp \
+    /usr/local/Cellar/sdl2/2.0.14_1/include \
     3rdparty/WebRTC/include/third_party/libyuv/include
 
 LIBS += -L$$WEBRTC_SRC/out/mac/obj -lwebrtc
+LIBS += -L$$WEBRTC_SRC/out/mac/obj/rtc_base -lrtc_base
+LIBS += -L$$WEBRTC_SRC/out/mac/obj/api -lcreate_peerconnection_factory
+LIBS += \
+        -L$$WEBRTC_SRC/out/mac/obj/sdk -lvideocapture_objc \
+        -L$$WEBRTC_SRC/out/mac/obj/sdk -lvideoframebuffer_objc \
+        -L$$WEBRTC_SRC/out/mac/obj/sdk -lbase_objc \
+        -L$$WEBRTC_SRC/out/mac/obj/sdk -lnative_video
+
+INCLUDEPATH += \
+        3rdparty/WebRTC/include/sdk/objc/base \
+        3rdparty/WebRTC/include/sdk/objc
+
 LIBS += -L$$LIBWEBSOCET/build/lib/ -lwebsockets
-DEFINES += WEBRTC_MAC WEBRTC_POSIX WEBRTC_UNIX
+LIBS += -L$$SDLDIR -lSDL2
+LIBS += -framework Foundation -framework CoreServices -framework ApplicationServices -framework CoreAudio -framework AudioToolbox
+LIBS += \
+        -framework CoreFoundation \
+        -framework CoreGraphics \
+        -framework IOSurface \
+        -framework Foundation \
+        -framework AppKit \
+        -framework CoreMedia \
+        -framework AVFoundation \
+        -framework CoreVideo
+
+DEFINES += WEBRTC_MAC \
+    WEBRTC_POSIX \
+    USE_BUILTIN_SW_CODECS \
+    HAVE_WEBRTC_VIDEO \
+    INCL_EXTRA_HTON_FUNCTIONS
 
 qnx: target.path = /tmp/$${TARGET}/bin
 else: unix:!android: target.path = /opt/$${TARGET}/bin

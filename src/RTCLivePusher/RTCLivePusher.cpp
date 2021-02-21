@@ -160,7 +160,7 @@ RTCLivePusher::RTCLivePusher():m_curWidth(kWidth),m_curHeight(kHeight),
 	m_runLoop = task::Runloop::Create();
 	m_websocket = new websocketConnect(this);
 	m_websocket->init();
-	m_websocket->connect("test3.rtc.qq.com", 8687);//qcloud
+    m_websocket->connect("bk.rtc.qq.com", 8687);//qcloud
 	//m_websocket->connect("127.0.0.1", 7681);
 }
 
@@ -434,8 +434,7 @@ int RTCLivePusher::sendMessage(const char* msg, int len)
 	buffer.SetData(seiInfo, index);
 
 	LOG_INFO("begin!" << " size: " << buffer.size());
-
-// 	BEGIN_ASYN_THREAD_CALL_1(buffer)
+ // 	BEGIN_ASYN_THREAD_CALL_1(buffer)
 // 		webrtcEngine::CapturerTrackSource *capture = dynamic_cast<webrtcEngine::CapturerTrackSource *>(m_localVideoTrackSource.get());
 // 		if (capture) {
 // 			//bool ret = capture->sendSEIMessage((const char*)buffer.cdata(), buffer.size());
@@ -841,8 +840,8 @@ void RTCLivePusher::onCreateRoomRes(const nlohmann::json &param)
 
 		m_eventHandler->onPusherEvent(m_inRoom ? RTCLIVE_ENTERROOM : RTCLIVE_LEAVEROOM);
 
-		OutputDebugStringA(param.dump().c_str());
-		OutputDebugStringA("\n");
+//		OutputDebugStringA(param.dump().c_str());
+//		OutputDebugStringA("\n");
 	}
 	catch (std::exception& e) {
 		LOG_ERROR("josn format is error: " << e.what());

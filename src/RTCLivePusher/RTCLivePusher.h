@@ -116,7 +116,7 @@ private:
 	std::string m_userId;
 	std::string m_socketId;
 	std::string m_tinyId;
-	std::string m_roomId = "10700";
+    std::string m_roomId = "6969";
 	std::string m_appId = "1400188366";
 	std::string m_userSig = "eJxNjl1PgzAUhv8LtxhzWtaGmXixKGLNnIsT5nbT4CjjDC2stFNj-O9WskVvnyfvx1fwNF2cF5tN67SV9rNTwUUAwdmAsVTaYoXKeOh6ZSSh0YgdbdF1WMrCysiU-0J92chBeUZGACSOI86PUn10aJQsKjt0EsYYBThFD8r02GovKBDmtwD*pMW332*EQzTmwMmpssetx-dJdiVuslyH6WydNu96*trUd9S9JGvudpCuakHmS9fukS5zuhITTCZhLXZWhPPkOb7d50aM0c6ia8rjw8K5-AEfM2O2zlW66i*D7x9vnFlb";
 	std::string m_checkSigSeq;

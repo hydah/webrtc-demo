@@ -150,12 +150,12 @@ bool PeerConnectionStream::createVideoTrack(bool capture)
 	m_bigVideoTrack->AddOrUpdateSink(m_meidaStream->videoObserver(),
 		rtc::VideoSinkWants());
 
-	m_smallVideoTrack = g_peer_connection_factory->CreateVideoTrack(rtc::CreateRandomUuid(), m_smallVideoTrackSource);
+//	m_smallVideoTrack = g_peer_connection_factory->CreateVideoTrack(rtc::CreateRandomUuid(), m_smallVideoTrackSource);
 
-	if (!m_smallVideoTrack) {
-		LOG_INFO("end! CreateSmallVideoTrack failed!");
-		return false;
-	}
+//	if (!m_smallVideoTrack) {
+//		LOG_INFO("end! CreateSmallVideoTrack failed!");
+//		return false;
+//	}
 
 	LOG_INFO("end!");
 	return true;
@@ -224,9 +224,12 @@ bool PeerConnectionStream::openVideoSource(bool capture)
 void PeerConnectionStream::createVideoSource(bool capture)
 {
 	LOG_INFO("begin! capture: " << capture);
-	m_localVideoTrackSource = webrtcEngine::CapturerTrackSource::Create(
-		m_curWidth, m_curHeight, m_curFps, m_curVideoDeviceIndex);
-	m_smallVideoTrackSource = ExternalVideoFrameTrackSource::Create(m_curWidth / 2, m_curHeight / 2, m_curFps);
+    m_localVideoTrackSource = webrtcEngine::CapturerTrackSource::Create(
+        m_curWidth, m_curHeight, m_curFps, m_curVideoDeviceIndex);
+    if (m_localVideoTrackSource == nullptr) {
+        LOG_INFO("track source is null");
+    }
+//	m_smallVideoTrackSource = ExternalVideoFrameTrackSource::Create(m_curWidth / 2, m_curHeight / 2, m_curFps);
 	LOG_INFO("end!");
 }
 
@@ -270,32 +273,32 @@ bool PeerConnectionStream::AddTransceiverAndCreateOfferForSend()
 	}
 
 
-	init.send_encodings.resize(1);
-	init.send_encodings[0].max_bitrate_bps = m_maxVideoBitrate * 1000;
-	init.send_encodings[0].max_framerate = m_curFps;
-	if (m_bigVideoTrack) {
-		LOG_INFO("add m_videoTrack");
-		ret = m_peerConnection->AddTransceiver(m_bigVideoTrack, init);
-		m_videoTransceiver = ret.value();
-	}
-	else {
-		LOG_ERROR("end! m_videoTrack is null");
-		return false;
-	}
-	init.send_encodings[0].max_bitrate_bps = m_maxVideoBitrate * 1000 / 2;
-	init.send_encodings[0].max_framerate = m_curFps;
-	if (m_smallVideoTrack) {
-		LOG_INFO("add m_videoTrack");
-		ret = m_peerConnection->AddTransceiver(m_smallVideoTrack, init);
-		m_smallVideoTransceiver = ret.value();
+    init.send_encodings.resize(1);
+    init.send_encodings[0].max_bitrate_bps = m_maxVideoBitrate * 1000;
+    init.send_encodings[0].max_framerate = m_curFps;
+    if (m_bigVideoTrack) {
+        LOG_INFO("add m_videoTrack");
+        ret = m_peerConnection->AddTransceiver(m_bigVideoTrack, init);
+        m_videoTransceiver = ret.value();
+    }
+    else {
+        LOG_ERROR("end! m_videoTrack is null");
+        return false;
+    }
+//    init.send_encodings[0].max_bitrate_bps = m_maxVideoBitrate * 1000 / 2;
+//    init.send_encodings[0].max_framerate = m_curFps;
+//    if (m_smallVideoTrack) {
+//        LOG_INFO("add m_videoTrack");
+//        ret = m_peerConnection->AddTransceiver(m_smallVideoTrack, init);
+//        m_smallVideoTransceiver = ret.value();
 
-		//m_peerConnection->RemoveTrack(m_smallVideoTransceiver->sender());
-		//m_smallVideoTransceiver->StopStandard();
-	}
-	else {
-		LOG_ERROR("end! m_smallVideoTrack is null");
-		return false;
-	}
+//        //m_peerConnection->RemoveTrack(m_smallVideoTransceiver->sender());
+//        //m_smallVideoTransceiver->StopStandard();
+//    }
+//    else {
+//        LOG_ERROR("end! m_smallVideoTrack is null");
+//        return false;
+//    }
 
 
 	webrtc::PeerConnectionInterface::RTCOfferAnswerOptions options;
@@ -482,10 +485,10 @@ bool PeerConnectionStream::publishStream()
 {
 	LOG_INFO("begin!");
 
-	if (!m_bigVideoTrack && !openVideoSource(m_isLocalVideoEnable)) {
-		LOG_ERROR("end! openVideoSource failed");
-		return false;
-	}
+    if (!m_bigVideoTrack && !openVideoSource(m_isLocalVideoEnable)) {
+        LOG_ERROR("end! openVideoSource failed");
+        return false;
+    }
 
 	if (!m_audioTrack && !openAudioSource()) {
 		LOG_ERROR("end! openAudioSource failed");
